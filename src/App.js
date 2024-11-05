@@ -1,25 +1,81 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import EmployeeProfile from "./components/EmployeeProfile";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Message from "./components/Message";
 
-function App() {
+export default function App() {
+  const [employees, setEmployees] = useState([]);
+  const [editingEmployee, setEditingEmployee] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageContent, setMessageContent] = useState("");
+
+  useEffect(() => {
+    const savedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
+    setEmployees(savedEmployees);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("employees", JSON.stringify(employees));
+  }, [employees]);
+
+  const handleSaveEmployee = (employee) => {
+    if (editingEmployee) {
+      setEmployees(
+        employees.map((emp) => (emp.id === employee.id ? employee : emp))
+      );
+      setEditingEmployee(null);
+      setMessageContent("Updated!");
+    } else {
+      setEmployees([...employees, employee]);
+      setMessageContent("Saved!");
+    }
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
+
+  const handleEditEmployee = (employee) => {
+    setEditingEmployee(employee);
+  };
+
+  const handleDeleteEmployee = (id) => {
+    setEmployees(employees.filter((emp) => emp.id !== id));
+    setMessageContent("Deleted!");
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Message visible={showMessage} message={messageContent} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Home
+                employees={employees}
+                onEdit={handleEditEmployee}
+                onDelete={handleDeleteEmployee}
+              />
+            </>
+          }
+        />
+        <Route
+          path="/employees"
+          element={
+            <>
+              <EmployeeProfile
+                onSave={handleSaveEmployee}
+                employees={employees}
+                editingEmployee={editingEmployee}
+              />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
