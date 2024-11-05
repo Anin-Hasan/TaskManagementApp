@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import EmployeeProfile from "./components/EmployeeProfile";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import Message from "./components/Message";
+import EmployeeProfile from "./components/employee/EmployeeProfile";
+import Navbar from "./components/navbar/Navbar";
+import Home from "./components/home/Home";
+import Message from "./components/common/Message";
 
 export default function App() {
   const [employees, setEmployees] = useState([]);
