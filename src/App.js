@@ -1,50 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import EmployeeProfile from "./components/employee/EmployeeProfile";
+import EmployeeDetails from "./components/employee/EmployeeDetails";
+import AssignTask from "./components/task/AssignTask";
+import TaskList from "./components/task/TaskList";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./components/home/Home";
 import Message from "./components/common/Message";
+import { useSelector, useDispatch } from "react-redux";
+import { setEmployees } from "./features/savedEmployees/savedEmployeesSlice";
 
 export default function App() {
-  const [employees, setEmployees] = useState([]);
-  const [editingEmployee, setEditingEmployee] = useState(null);
-  const [showMessage, setShowMessage] = useState(false);
-  const [messageContent, setMessageContent] = useState("");
-
+  const dispatch = useDispatch();
+  const { employees, showMessage, messageContent } = useSelector(
+    (state) => state.employees
+  );
   useEffect(() => {
     const savedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    setEmployees(savedEmployees);
-  }, []);
+    dispatch(setEmployees(savedEmployees));
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
   }, [employees]);
-
-  const handleSaveEmployee = (employee) => {
-    if (editingEmployee) {
-      setEmployees(
-        employees.map((emp) => (emp.id === employee.id ? employee : emp))
-      );
-      setEditingEmployee(null);
-      setMessageContent("Updated!");
-    } else {
-      setEmployees([...employees, employee]);
-      setMessageContent("Saved!");
-    }
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000);
-  };
-
-  const handleEditEmployee = (employee) => {
-    setEditingEmployee(employee);
-  };
-
-  const handleDeleteEmployee = (id) => {
-    setEmployees(employees.filter((emp) => emp.id !== id));
-    setMessageContent("Deleted!");
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000);
-  };
 
   return (
     <Router>
@@ -55,11 +33,7 @@ export default function App() {
           path="/"
           element={
             <>
-              <Home
-                employees={employees}
-                onEdit={handleEditEmployee}
-                onDelete={handleDeleteEmployee}
-              />
+              <Home />
             </>
           }
         />
@@ -67,14 +41,13 @@ export default function App() {
           path="/employees"
           element={
             <>
-              <EmployeeProfile
-                onSave={handleSaveEmployee}
-                employees={employees}
-                editingEmployee={editingEmployee}
-              />
+              <EmployeeProfile />
             </>
           }
         />
+        <Route path="/employee/:id" element={<EmployeeDetails />} />
+        <Route path="/assign-task" element={<AssignTask />} />
+        <Route path="/tasks" element={<TaskList />} />
       </Routes>
     </Router>
   );

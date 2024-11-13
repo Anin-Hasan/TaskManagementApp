@@ -1,7 +1,7 @@
 import React from "react";
 import EmployeeList from "../employee/EmployeeList";
 
-const Home = ({ employees, onEdit, onDelete }) => {
+const Home = () => {
   return (
     <div className="container mx-auto p-4 font-poppins">
       <div className="flex flex-col justify-center items-center text-center">
@@ -11,11 +11,7 @@ const Home = ({ employees, onEdit, onDelete }) => {
         </p>
       </div>
       <div className="mt-8">
-        <EmployeeList
-          employees={employees}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <EmployeeList />
       </div>
     </div>
   );

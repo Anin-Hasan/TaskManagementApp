@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import InputField from "../common/InputField";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  handleSubmit,
+  hideMessage,
+} from "../../features/savedEmployees/savedEmployeesSlice";
 
-const EmployeeForm = ({
-  employee,
-  onChange,
-  onSubmit,
-  error,
-  editingEmployee,
-}) => {
+const EmployeeForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const prevErrorRef = useRef();
+  const { employee, error, editingEmployee } = useSelector(
+    (state) => state.employees
+  );
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(handleSubmit());
+    setTimeout(() => dispatch(hideMessage()), 3000);
+  };
+  useEffect(() => {
+    prevErrorRef.current = error;
+  }, [error]);
+  useEffect(() => {
+    if (prevErrorRef.current && error === "") {
+      navigate("/");
+      setTimeout(() => dispatch(hideMessage()), 3000);
+    }
+  }, [dispatch, error, navigate]);
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg font-poppins shadow-md">
       <h2 className="text-2xl font-bold mb-4">Employee Profile</h2>
@@ -17,7 +37,6 @@ const EmployeeForm = ({
           label="Employee ID"
           name="id"
           value={employee.id}
-          onChange={onChange}
           placeholder="Employee ID"
           disabled={!!editingEmployee}
         />
@@ -25,21 +44,18 @@ const EmployeeForm = ({
           label="Employee Name"
           name="name"
           value={employee.name}
-          onChange={onChange}
           placeholder="Employee Name"
         />
         <InputField
           label="Designation"
           name="designation"
           value={employee.designation}
-          onChange={onChange}
           placeholder="Designation"
         />
         <InputField
           label="Email"
           name="email"
           value={employee.email}
-          onChange={onChange}
           placeholder="Email"
           type="email"
         />
@@ -47,7 +63,6 @@ const EmployeeForm = ({
           label="Phone"
           name="phone"
           value={employee.phone}
-          onChange={onChange}
           placeholder="Phone"
           type="tel"
         />
