@@ -9,9 +9,8 @@ import {
 const AssignTask = () => {
   const dispatch = useDispatch();
   const employees = useSelector((state) => state.employees.employees);
-  const { selectedEmployee, taskDescription } = useSelector(
-    (state) => state.tasks.selectedEmployee
-  );
+  const selectedEmployee = useSelector((state) => state.tasks.selectedEmployee);
+  const taskDescription = useSelector((state) => state.tasks.taskDescription);
 
   const handleAssignTask = (e) => {
     e.preventDefault();

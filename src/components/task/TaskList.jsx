@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   deleteTask,
@@ -13,6 +13,8 @@ const TaskList = () => {
   const { tasks, editingTaskId, newTaskDescription, newEmployeeId } =
     useSelector((state) => state.tasks);
   const employees = useSelector((state) => state.employees.employees);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleEditTask = (taskId) => {
     dispatch(setEditingTask(taskId));
@@ -35,16 +37,27 @@ const TaskList = () => {
     dispatch(deleteTask(taskId));
   };
 
+  const filteredTasks = tasks.filter((task) =>
+    task.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg font-poppins shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
         Task List
       </h2>
-      {tasks.length === 0 ? (
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="mt-1 mb-4 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      />
+      {filteredTasks.length === 0 ? (
         <p className="text-center text-gray-500">No tasks available</p>
       ) : (
         <ul className="space-y-4">
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <li
               key={task.id}
               className="flex flex-col p-4 bg-gray-100 rounded-md shadow-sm"
