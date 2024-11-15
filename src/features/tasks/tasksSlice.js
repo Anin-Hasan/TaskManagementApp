@@ -18,6 +18,7 @@ const tasksSlice = createSlice({
         id: Date.now().toString(),
         employeeId: action.payload.employeeId,
         description: action.payload.task,
+        completed: false,
       });
     },
     deleteTask: (state, action) => {
@@ -66,9 +67,16 @@ const tasksSlice = createSlice({
           id: Date.now().toString(),
           employeeId: state.selectedEmployee,
           description: state.taskDescription,
+          completed: false,
         });
         state.selectedEmployee = "";
         state.taskDescription = "";
+      }
+    },
+    toggleTaskCompletion: (state, action) => {
+      const task = state.tasks.find((task) => task.id === action.payload);
+      if (task) {
+        task.completed = !task.completed;
       }
     },
   },
@@ -84,5 +92,6 @@ export const {
   setSelectedEmployee,
   setTaskDescription,
   assignTask,
+  toggleTaskCompletion,
 } = tasksSlice.actions;
 export default tasksSlice.reducer;

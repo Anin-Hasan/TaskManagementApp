@@ -16,7 +16,9 @@ const EmployeeDetails = () => {
   );
 
   const tasks = useSelector((state) =>
-    state.tasks.tasks.filter((task) => task.employeeId === id)
+    state.tasks.tasks.filter(
+      (task) => task.employeeId === id && !task.completed
+    )
   );
 
   if (!employee) {
