@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import NavLink from "./NavLink";
 import MobileMenu from "./MobileMenu";
 import "../../styles/Navbar.css";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,11 +15,11 @@ const Navbar = () => {
     <nav className="bg-blue-600 p-4 font-poppins">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white text-lg font-bold">
-          <Link to="/">TODO APP</Link>
+          <Link to="/">Task Management</Link>
         </div>
         <div className="hidden md:flex space-x-4">
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/employees">Employees</NavLink>
+          <NavLink to="/employees">Add Employees</NavLink>
           <NavLink to="/assign-task">Assign Task</NavLink>
           <NavLink to="/tasks">Tasks</NavLink>
         </div>

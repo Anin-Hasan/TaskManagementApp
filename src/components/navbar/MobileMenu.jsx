@@ -13,7 +13,7 @@ const MobileMenu = ({ isOpen, toggleMenu }) => {
           Home
         </NavLink>
         <NavLink to="/employees" onClick={toggleMenu}>
-          Employees
+          Add Employees
         </NavLink>
         <NavLink to="/assign-task" onClick={toggleMenu}>
           Assign Task

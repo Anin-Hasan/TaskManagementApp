@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import EmployeeList from "../employee/EmployeeList";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,7 +14,9 @@ const Home = () => {
   return (
     <div className="container mx-auto p-4 font-poppins">
       <div className="flex flex-col justify-center items-center text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to the TODO APP</h1>
+        <h1 className="text-4xl font-bold mb-4">
+          Employee Task Management APP
+        </h1>
         <p className="text-lg mb-4">
           Manage your employees and tasks efficiently.
         </p>
@@ -41,6 +44,14 @@ const Home = () => {
               />
             </svg>
           </div>
+        </div>
+        <div>
+          <button
+            type="submit"
+            className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            <Link to="/employees">Add Employee</Link>
+          </button>
         </div>
       </div>
       <div className="mt-8">

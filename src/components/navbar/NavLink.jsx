@@ -1,15 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink as RouterNavLink } from "react-router-dom";
 
 const NavLink = ({ to, children, onClick }) => {
   return (
-    <Link
+    <RouterNavLink
       to={to}
-      className="text-white font-poppins hover:text-gray-300 py-2 px-4"
+      className={({ isActive }) =>
+        `text-white font-poppins py-2 px-4 ${
+          isActive
+            ? "bg-blue-700 rounded-md duration-500"
+            : "hover:text-gray-300"
+        }`
+      }
       onClick={onClick}
     >
       {children}
-    </Link>
+    </RouterNavLink>
   );
 };
 
