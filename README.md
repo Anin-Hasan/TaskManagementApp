@@ -1,6 +1,6 @@
-# TODO App
+# Task Management App
 
-This project is a TODO application built with React, Redux, and Tailwind CSS. It allows users to manage employees and tasks efficiently.
+This project is a Task Management application built with React, Redux, and Tailwind CSS. It allows users to manage employees and tasks efficiently.
 
 ## Features
 
